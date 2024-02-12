@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/accounts
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/crp
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: pass@123
@@ -14,3 +14,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+    user:
+      name: deepak
+      password: password
+      roles: USER
+
