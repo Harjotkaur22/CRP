@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/review/codeReviewList")
-public class CodeReviewListingPageController {
+@RequestMapping("/user/search")
+public class SearchPageController {
 	
 	
 
 	@GetMapping
-	public String loadCodeReviewListingPage() {
-		return "review/codeReviewList";
+	public String loadSearchPage() {
+		return "user/search";
 	}
 	
 	@PostMapping
-	public String submitCodeReviewListingPage() {
-		return "review/codeReviewList";
+	public String submitSearchPage() {
+		return "user/search";
 	}
 
 }

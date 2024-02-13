@@ -17,13 +17,13 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">My Posts</a></li>
+          <li><a href="#" th:href = "@{/user/home}" class="nav-link px-2 link-secondary">Home</a></li>
+          <li><a href="#" th:href = "@{/user/message}" class="nav-link px-2 link-body-emphasis">My Messages</a></li>
           <div sec:authorize = "hasRole('REVIEWER')">
-          		<li><a href="#" th:href = "@{/review/codeReviewList}" class="nav-link px-2 link-body-emphasis">Code Review</a></li>
+          		<li><a href="#" th:href = "@{/review/codeReview}" class="nav-link px-2 link-body-emphasis">Code Review</a></li>
           </div>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Search</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Notification</a></li>
+          <li><a href="#" th:href = "@{/user/search}" class="nav-link px-2 link-body-emphasis">Search</a></li>
+          <li><a href="#" th:href = "@{/user/notification}" class="nav-link px-2 link-body-emphasis">Notification</a></li>
         </ul>
 
 <!-- 		Search Feature in the Tab Itself Could be later enabled instead of separate Search Page -->
@@ -39,7 +39,7 @@
 			<div sec:authorize = "hasRole('ADMIN')">
             	<li><a class="dropdown-item" th:href="@{/admin/adminHome}">Admin</a></li>
             </div>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#" th:href = "@{/user/profile}">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
 	            <form method="POST" th:action="@{/logout}">
