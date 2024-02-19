@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="ISO-8859-1">
+<title>View Post</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</head>
+<body>
+ 	<div th:replace="~{fragments.html :: header}" />  
+ 
+	<main class="px-3">
+	   
+	   
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCommentModal">
+		    Add Comment
+		</button>
+		
+		<!-- Dialog Box to add Comment -->
+		<div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+		            <form  th:action = "@{/review/codeReview/addComment}" method = "post" th:object = "${comment}" class="needs-validation" >
+		            	<input type="hidden" class="form-control" id="postId"  th:field = "*{postId}" >
+		            
+			            <div class="modal-body">
+			              
+							<div class="form-group">
+								<label for="description">Comment</label>
+								<textarea class="form-control" id="description" rows="5" placeholder="Enter your comment"  th:field = "*{comment}"  required=""></textarea>
+								<div class="invalid-feedback">
+			                		Valid comment is required.
+			              		</div>
+							</div>
+						
+			            </div>
+			            <div class="modal-footer">
+			             	<button type="submit" class="btn btn-primary">Submit</button>
+		                	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			            </div>
+			            
+		            </form>
+		        </div>
+		    </div>
+		</div>
+	   
+		            
+			                 
+	<!--   Content for View Post Screen -->
+			<div class="container mt-4">
+			  <div class="row">
+			    <div class="col-md-8 offset-md-2">
+			      <!-- Question Card -->
+			      <div class="card mb-4">
+			        <div class="card-header">
+			          <h5 class="card-title" th:text="${post.subject}"></h5>
+			        </div>
+			        <div class="card-body">
+			          <p class="card-text" th:text="${post.description}" />
+			           <pre id="codeBlock" th:text="${post.codeSample}" ></pre>
+			        </div>
+			      </div>
+			      <!-- Comments Section -->
+			      <div class="card">
+			        <div class="card-body">
+			          <h5 class="card-title">Comments</h5>
+			          <div class="media" th:each="cmnt,rowStat : ${comments}">
+			            <div class="media-body">
+			              <h6 class="mt-0" th:text="${'User ' + rowStat.count}" ></h6>
+			               <p  th:text="${cmnt.comment}" />
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      
+			      
+			    </div>
+			  </div>
+			</div>
+  	</main>
+  	
+</body>
+</html>
