@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/crp
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: pass@123
+    password: Komaldeep@0751
   h2:
     console:
       enabled: true
