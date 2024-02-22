@@ -11,31 +11,33 @@
 <body class="text-center">
     
 <main class="form-signin">
-  <form action="#" th:action = "@{/authenticateUser}" method = "POST">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-	
-	<div th:if = "${param.error}">
-		<i>You entered invalid username/password</i>
-	</div>
-	<div th:if = "${param.logout}">
-		<i>User logout</i>
-	</div>
-    <div class="form-floating">
-      <input type="text" class="form-control" id="username" name="username"  placeholder="UserName">
-      <label for="floatingInput">UserName</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
+ 	<div class="card-body p-md-5 mx-md-4">
 
-    <div class="checkbox mb-3">
-      <label>
-        <a class="dropdown-item" th:href="@{/registerUser}">Register User</a>
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-  </form>
+			<div class="text-center">
+				<img class="d-block mx-auto mb-4" th:src="@{/images/person-circle.svg}" alt="" width="185" height="80">
+				<h4 class="mt-1 mb-5 pb-1">We are Code Review Team</h4>
+			</div>
+			<form action="#" th:action="@{/authenticateUser}" method="POST">
+
+				<div th:if="${param.error}" class="alert alert-warning " role="alert">
+					<i>You entered invalid username/password</i>
+				</div>
+				<div th:if="${param.logout}" class="alert alert-warning" role="alert">
+					<i>User logout</i>
+				</div>
+				<div class="form-outline mb-4">
+					<input type="text" class="form-control" id="username" name="username" placeholder="UserName">
+				</div>
+				<div class="form-outline mb-4">
+					<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+				</div>
+
+				<div class="text-center pt-1 mb-5 pb-1">
+					<button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Log in</button>
+					<a class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" th:href="@{/registerUser}">Register User</a>
+				</div>
+			</form>
+		</div>
 </main>
 
 
