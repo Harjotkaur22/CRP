@@ -18,17 +18,17 @@ import com.aber.crp.model.Comments;
 import com.aber.crp.service.PostService;
 
 @Controller
-@RequestMapping("/review/codeReview")
-public class CodeReviewPageController {
+@RequestMapping("/user/posts")
+public class PostsPageController {
 	
 	@Autowired
 	PostService postService;
 
 	@GetMapping
-	public String loadCodeReviewListingPage(Model model) {
+	public String loadPostsListingPage(Model model) {
 		List<PostDto> postDtoList = postService.findAllPost();
 		model.addAttribute("postList", postDtoList);
-		return "review/codeReview";
+		return "user/posts";
 	}
 	
 	
@@ -42,10 +42,8 @@ public class CodeReviewPageController {
 	@PostMapping("/createPost")
 	public String createNewPost(@ModelAttribute("post") PostDto dto) {
 		
-		postService.savePost(dto);
-		System.out.println("###post Created");
-		
-		return "redirect:/review/codeReview";
+		postService.savePost(dto);		
+		return "redirect:/user/posts";
 	}
 	
 	
@@ -60,7 +58,7 @@ public class CodeReviewPageController {
         model.addAttribute("comment", commentDto);
         model.addAttribute("comments", commentsList);
 
-		return "review/viewPost";
+		return "user/viewPost";
 	}
 	
 	@PostMapping("/addComment")
@@ -68,7 +66,7 @@ public class CodeReviewPageController {
 		
 		postService.saveComment(dto);
 		
-		return "redirect:/review/codeReview/view?id="+dto.getPostId();
+		return "redirect:/user/posts/view?id="+dto.getPostId();
 	}
 	
 }
