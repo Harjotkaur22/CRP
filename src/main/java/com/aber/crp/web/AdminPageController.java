@@ -12,12 +12,12 @@ public class AdminPageController {
 	
 
 	@GetMapping
-	public String loadCodeReviewListingPage() {
+	public String loadAdmminPage() {
 		return "admin/adminHome";
 	}
 	
 	@PostMapping
-	public String submitCodeReviewListingPage() {
+	public String submitAdminPage() {
 		return "admin/adminHome";
 	}
 

@@ -27,7 +27,7 @@
 		                <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
 		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		            </div>
-		            <form  th:action = "@{/review/codeReview/addComment}" method = "post" th:object = "${comment}" class="needs-validation" >
+		            <form  th:action = "@{/user/posts/addComment}" method = "post" th:object = "${comment}" class="needs-validation" >
 		            	<input type="hidden" class="form-control" id="postId"  th:field = "*{postId}" >
 		            
 			            <div class="modal-body">

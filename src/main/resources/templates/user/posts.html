@@ -28,7 +28,7 @@
 		        <tbody>
 		            <tr th:each="item, index : ${postList}">
 		                <td th:text="${index.index + 1}"></td> 
-		                <td><a th:href="${'/review/codeReview/view?id=' + item.id}" th:text="${item.subject}"></a></td>
+		                <td><a th:href="${'/user/posts/view?id=' + item.id}" th:text="${item.subject}"></a></td>
 		            </tr>
 		        </tbody>
 		    </table>
@@ -42,7 +42,7 @@
 		                <h5 class="modal-title" id="createPostModalLabel">Create Post</h5>
 		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		            </div>
-		            <form  th:action = "@{/review/codeReview/createPost}" method = "post" th:object = "${post}" class="needs-validation" >
+		            <form  th:action = "@{/user/posts/createPost}" method = "post" th:object = "${post}" class="needs-validation" >
 		            
 			            <div class="modal-body">
 			                
