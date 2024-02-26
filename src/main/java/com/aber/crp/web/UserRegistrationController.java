@@ -2,6 +2,7 @@ package com.aber.crp.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +35,12 @@ public class UserRegistrationController {
 	@PostMapping
 	public String registerUser(@ModelAttribute("user") UserRegistrationDto dto) {
 		
-		userService.save(dto);
+		if(!dto.getPassword1().equals(dto.getPassword2())) {
+			return "redirect:/registerUser?error";
+		}
 		
-		return "redirect:/registerUser?success";
+		userService.save(dto);
+		return "login";
 	}
 
 }
