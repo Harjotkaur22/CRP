@@ -2,10 +2,14 @@ package com.aber.crp.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.aber.crp.dto.CommentsDto;
 import com.aber.crp.dto.PostDto;
@@ -17,6 +21,8 @@ import com.aber.crp.repository.CommentsRepository;
 import com.aber.crp.repository.PostRepository;
 import com.aber.crp.repository.UserRepository;
 import com.aber.crp.service.PostService;
+
+import io.micrometer.common.util.StringUtils;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -54,16 +60,16 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<CommentsDto> findAllCommentsByPostId(Long postId) {
+	public Set<CommentsDto> findAllCommentsByPostId(Long postId) {
 		List<Comments> comments = commentsRepo.findAllCommentsByPostId(postId);
-		List<CommentsDto> commentsDtoList = CommentsMapper.maptoCommentsDtoList(comments, new ArrayList<CommentsDto>());
+		Set<CommentsDto> commentsDtoList = CommentsMapper.maptoCommentsDtoList(new HashSet<Comments>(comments), new HashSet<CommentsDto>());
 		return commentsDtoList;
 	}
 
 	@Override
 	public void saveComment(CommentsDto commentsDto) {
-		Comments comment = CommentsMapper.mapToComments(commentsDto, new Comments());
-		commentsRepo.save(comment);
+			Comments comment = CommentsMapper.mapToComments(commentsDto, new Comments());
+			commentsRepo.save(comment);
 		
 	}
 	
