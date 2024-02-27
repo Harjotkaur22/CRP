@@ -6,7 +6,8 @@ public class PostDto {
 	private String subject;
 	private String description;
 	private String codeSample;
-	
+	private String codeSampleWithIndex;
+
 	
 	public String getSubject() {
 		return subject;
@@ -32,9 +33,12 @@ public class PostDto {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
-	
+	public String getCodeSampleWithIndex() {
+		return codeSampleWithIndex;
+	}
+	public void setCodeSampleWithIndex(String codeSampleWithIndex) {
+		this.codeSampleWithIndex = codeSampleWithIndex;
+	}
 	
 	
 }

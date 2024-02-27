@@ -30,6 +30,7 @@ public class Comments extends BaseEntity {
 	private Long postId;
 	private String comment;
 	private Long parentCommentId;
+	private String codeReference;
 
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -71,6 +72,12 @@ public class Comments extends BaseEntity {
 			this.subComments = new HashSet<Comments>();
 		}
 		this.subComments.add(subComment);
+	}
+	public String getCodeReference() {
+		return codeReference;
+	}
+	public void setCodeReference(String codeReference) {
+		this.codeReference = codeReference;
 	}
 	
 	

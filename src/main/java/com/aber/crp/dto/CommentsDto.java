@@ -11,7 +11,8 @@ public class CommentsDto {
 	private String comment;
 	private Long parentCommentId;
 	private Set<CommentsDto> subComments; 
-	
+	private String codeReference;
+
 	
 	public Long getId() {
 		return id;
@@ -43,8 +44,11 @@ public class CommentsDto {
 	public void setSubComments(Set<CommentsDto> subComments) {
 		this.subComments = subComments;
 	}
-	
-	
-	
+	public String getCodeReference() {
+		return codeReference;
+	}
+	public void setCodeReference(String codeReference) {
+		this.codeReference = codeReference;
+	}
 	
 }
