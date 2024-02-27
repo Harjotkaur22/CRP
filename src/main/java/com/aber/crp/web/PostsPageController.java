@@ -52,10 +52,19 @@ public class PostsPageController {
 	public String viewPost(@RequestParam("id") Long id, Model model) {
 		
 		PostDto postDto = postService.findPostById(id);
+		String[] codeSampleByLines = postDto.getCodeSample().split(System.lineSeparator());
+		int count = 1;
+		StringBuffer code = new StringBuffer();
+		for(String temp : codeSampleByLines) {
+			code.append(count + " : " + temp +System.lineSeparator());
+			count++;
+		}
+		postDto.setCodeSampleWithIndex(code.toString());
 		CommentsDto commentDto = new CommentsDto();
 		commentDto.setPostId(id);
 		Set<CommentsDto> commentsList = postService.findAllCommentsByPostId(id);
         model.addAttribute("post", postDto);
+        model.addAttribute("codeSampleByLines", codeSampleByLines);
         model.addAttribute("comment", commentDto);
         model.addAttribute("comments", commentsList);
 

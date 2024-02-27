@@ -16,6 +16,7 @@ public class CommentsMapper {
 	 		commentDto.setPostId(comment.getPostId());
 	 		commentDto.setComment(comment.getComment());
 	 		commentDto.setParentCommentId(comment.getParentCommentId());
+	 		commentDto.setCodeReference(comment.getCodeReference());
 	 		commentDto.setSubComments(maptoCommentsDtoList(comment.getSubComments(), new HashSet<CommentsDto>()));
 	        return commentDto;
 	    }
@@ -25,6 +26,7 @@ public class CommentsMapper {
 	    	comment.setPostId(commentDto.getPostId());
 	    	comment.setComment(commentDto.getComment());
 	    	comment.setParentCommentId(commentDto.getParentCommentId());
+	    	comment.setCodeReference(commentDto.getCodeReference());
 	        return comment;
 	    }
 	    
