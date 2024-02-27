@@ -1,6 +1,7 @@
 package com.aber.crp.web;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ public class PostsPageController {
 		PostDto postDto = postService.findPostById(id);
 		CommentsDto commentDto = new CommentsDto();
 		commentDto.setPostId(id);
-		List<CommentsDto> commentsList = postService.findAllCommentsByPostId(id);
+		Set<CommentsDto> commentsList = postService.findAllCommentsByPostId(id);
         model.addAttribute("post", postDto);
         model.addAttribute("comment", commentDto);
         model.addAttribute("comments", commentsList);
