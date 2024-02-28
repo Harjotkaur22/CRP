@@ -16,6 +16,7 @@ public class Post extends  BaseEntity  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String subject;
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	@Column(columnDefinition = "TEXT")
 	private String codeSample;
