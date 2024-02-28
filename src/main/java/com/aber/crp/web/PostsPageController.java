@@ -1,5 +1,9 @@
 package com.aber.crp.web;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -64,6 +68,11 @@ public class PostsPageController {
 		commentDto.setPostId(id);
 		Set<CommentsDto> commentsList = postService.findAllCommentsByPostId(id);
         model.addAttribute("post", postDto);
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        model.addAttribute("tempDate", LocalDateTime.now());
+
         model.addAttribute("codeSampleByLines", codeSampleByLines);
         model.addAttribute("comment", commentDto);
         model.addAttribute("comments", commentsList);

@@ -17,6 +17,8 @@ public class CommentsMapper {
 	 		commentDto.setComment(comment.getComment());
 	 		commentDto.setParentCommentId(comment.getParentCommentId());
 	 		commentDto.setCodeReference(comment.getCodeReference());
+	 		commentDto.setCreatedBy(comment.getCreatedBy());
+	 		commentDto.setCreatedDate(comment.getCreatedDate());
 	 		commentDto.setSubComments(maptoCommentsDtoList(comment.getSubComments(), new HashSet<CommentsDto>()));
 	        return commentDto;
 	    }

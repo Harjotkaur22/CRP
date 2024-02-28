@@ -14,7 +14,7 @@ import com.aber.crp.model.Comments;
 public interface CommentsRepository extends JpaRepository<Comments, Long>{
 	
     @EntityGraph(attributePaths = "subComments")
-    @Query("SELECT c FROM Comments c WHERE c.parentCommentId IS NULL and c.postId = :postId")
+    @Query("SELECT c FROM Comments c WHERE c.parentCommentId IS NULL and c.postId = :postId order by c.createdDate")
 	List<Comments> findAllCommentsByPostId(@Param("postId") Long postId);
 
 }
