@@ -13,12 +13,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdDate;
 
     @CreatedBy
     @Column(updatable = false)
@@ -26,18 +26,18 @@ public class BaseEntity {
 
     @LastModifiedDate
     @Column(insertable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedDate;
 
     @LastModifiedBy
     @Column(insertable = false)
     private String updatedBy;
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public String getCreatedBy() {
@@ -48,12 +48,12 @@ public class BaseEntity {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
+	public LocalDateTime getUpdatedDate() {
+		return updatedDate;
 	}
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setUpdatedDate(LocalDateTime updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 	public String getUpdatedBy() {
@@ -66,7 +66,7 @@ public class BaseEntity {
 
 	@Override
 	public String toString() {
-		return "BaseEntity [createdAt=" + createdAt + ", createdBy=" + createdBy + ", updatedAt=" + updatedAt
+		return "BaseEntity [createdDate=" + createdDate + ", createdBy=" + createdBy + ", updatedDate=" + updatedDate
 				+ ", updatedBy=" + updatedBy + "]";
 	}
     

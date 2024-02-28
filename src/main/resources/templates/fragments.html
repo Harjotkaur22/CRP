@@ -36,7 +36,7 @@
 	        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 	          <li><a href="#" th:href = "@{/user/home}" class="nav-link px-2 link-body-emphasis">Home</a></li>
 	          <li><a href="#" th:href = "@{/user/message}" class="nav-link px-2 link-body-emphasis">My Messages</a></li>
-	          <div sec:authorize = "hasRole('REVIEWER')">
+	          <div sec:authorize = "hasRole('USER')">
 	          		<li><a href="#" th:href = "@{/user/posts}" class="nav-link px-2 link-body-emphasis">Posts</a></li>
 	          </div>
 	          <li><a href="#" th:href = "@{/user/search}" class="nav-link px-2 link-body-emphasis">Search</a></li>

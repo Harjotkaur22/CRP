@@ -3,7 +3,7 @@ package com.aber.crp.dto;
 import java.util.List;
 import java.util.Set;
 
-public class CommentsDto {
+public class CommentsDto extends BaseEntityDto{
 
 	
 	private Long id;

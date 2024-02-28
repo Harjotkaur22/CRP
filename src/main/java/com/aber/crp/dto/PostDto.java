@@ -1,6 +1,6 @@
 package com.aber.crp.dto;
 
-public class PostDto {
+public class PostDto extends BaseEntityDto {
 	
 	private Long id;
 	private String subject;
