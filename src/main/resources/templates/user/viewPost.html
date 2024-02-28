@@ -9,18 +9,104 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+<style type="text/css">
+	
+	
+	.split {
+	  height: 100%;
+	  width: 50%;
+	  position: fixed;
+	  z-index: 1;
+	  top: auto;
+	  overflow-x: hidden;
+ 	  padding-bottom: 50px; 
+ 	  
+	}
+	.left {
+	  left: 0;
+	}
+	.right {
+	  right: 0;
+	}
+</style>
 </head>
 <body>
  	<div th:replace="~{fragments.html :: header}" />  
  
 	<main class="px-3">
-	   
-	   
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCommentModal"  th:onclick="setParentCommentId('')" >
-		    Add Comment
-		</button>
+		<!--   Code to view the post with code sample -->
+	   <div class="split left">
+			<div class="container mt-1">
+			      <div class="card mb-1">
+			        <div class="card-header">
+			          <h5 class="card-title" th:text="${post.subject}"></h5>
+			        </div>
+			        <div class="card-body ">
+			          <p class="card-text alert alert-dark" th:text="${post.description}" />
+			           <pre class = "alert alert-secondary" id="codeBlock" th:text="${post.codeSampleWithIndex}" ></pre>
+			        </div>
+			      </div>
+			</div>
+		</div>
+		<!--  Code to List comments -->
+		<div class="split right">
+			<div class="container mt-1">
+				<div class="card mb-4">
+					<div class="card-header">
+					<div class="row">
+						<div class="col-md-6">
+				            <h5 class="card-title"> Comment </h5>
+				        </div>
+				        <div class="col-md-6 text-end">
+				            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCommentModal" onclick="setParentCommentId('')">
+				                Add Comment
+				            </button>
+				        </div>
+				     </div>
+				     </div>
+				     <div class="card card-body " th:if="${#lists.isEmpty(comments)}" >
+				     	<div  class="alert alert-warning" role="alert"> No comments available</div>
+				     </div>
+					<div class="card card-body "  th:each="cmnt,rowStat : ${comments}">
+						<div class="d-flex align-items-center">
+							<img class="rounded-circle shadow-1 me-3" th:src="@{/images/person-circle.svg}" alt="avatar" width="60" height="60">
+							<div>
+								<h6 class="fw-bold text-primary mb-1" th:text="${cmnt.createdBy}"></h6>
+								<p class="text-muted small mb-0" th:if="${cmnt.createdDate != null}" th:text="${#temporals.format(cmnt.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
+								<p class="text-muted small mb-0" th:if="${not #strings.isEmpty(cmnt.codeReference)}" th:text = "${'Referenced Line : ' + cmnt.codeReference}"></p>
+							</div>
+						</div>
+						<p class="mt-3 mb-3" th:text="${cmnt.comment}">   </p>
 		
-		<!-- Dialog Box to add Comment -->
+						<div class="d-flex justify-content-start">
+							<a href="#!" class="d-flex align-items-center me-3"> <i class="far fa-thumbs-up me-2"></i> <p class="mb-0">Like</p> </a> 
+							<a href="#!" class="d-flex align-items-center me-3" data-bs-toggle="modal" data-bs-target="#addCommentModal"   th:data-name="${cmnt.id}" th:onclick="setParentCommentId(this.getAttribute('data-name'))" > <i class="far fa-comment-dots me-2"></i> <p class="mb-0">Comment</p></a> 
+							<a class="btn btn-primary mb-1"  data-bs-toggle="collapse" th:href="${'#collapseComments' + rowStat.count}" role="button" aria-expanded="false" aria-controls="collapseComments1" th:if="${not #lists.isEmpty(cmnt.subComments)}"> <i class="fas fa-angle-double-down"></i> Expand Comments</a>
+						</div>
+						<div class="collapse card" th:id="${'collapseComments' + rowStat.count}">
+							<div   th:each="subCmnt,rowStat2 : ${cmnt.subComments}">
+								<div class="card card-body">
+									<div class="d-flex align-items-center">
+										<img class="rounded-circle shadow-1 me-3" th:src="@{/images/person-circle.svg}" alt="avatar" width="60" height="60">
+										<div>
+											<h6 class="fw-bold text-primary mb-1" th:text="${subCmnt.createdBy}"></h6>
+											<p class="text-muted small mb-0" th:if="${subCmnt.createdDate != null}" th:text="${#temporals.format(subCmnt.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
+											<p class="text-muted small mb-0" th:if="${not #strings.isEmpty(subCmnt.codeReference)}" th:text = "${'Referenced Line : ' + subCmnt.codeReference}"></p>
+										</div>
+									</div>
+									<p class="mt-3 mb-3" th:text="${subCmnt.comment}">  </p>
+									<div class="d-flex justify-content-start">
+										<a href="#!" class="d-flex align-items-center me-3"> <i class="far fa-thumbs-up me-2"></i> <p class="mb-0">Like</p> </a> 
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- Dialog Box to add Comment -->
 		<div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="addCommentModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
@@ -56,81 +142,8 @@
 		    </div>
 		</div>
 	   
-		            
-			                 
-	<!--   Content for View Post Screen -->
-			<div class="container mt-4">
-			  <div class="row">
-			    <div class="col-md-8 offset-md-2">
-			      <!-- Question Card -->
-			      <div class="card mb-4">
-			        <div class="card-header">
-			          <h5 class="card-title" th:text="${post.subject}"></h5>
-			        </div>
-			        <div class="card-body">
-			          <p class="card-text" th:text="${post.description}" />
-			           <pre id="codeBlock" th:text="${post.codeSampleWithIndex}" ></pre>
-<!-- 			          <pre id="codeBlock"> -->
-<!-- 			          	<div  th:each="cd,rowStat : ${codeSampleByLines}"> -->
-<!-- 			          		<p th:text="${cd}"></p> -->
-<!-- 			          	</div> -->
-			          
-<!-- 			          </pre> -->
-
-			        </div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-
-
-		<section>
-			<div class="container my-5 py-5">
-				<div class="row justify-content-center">
-					<div class="col-md-12 col-lg-10 col-xl-8">
-						<div class="card">
-							<div class="card card-body"  th:each="cmnt,rowStat : ${comments}">
-								<div class="d-flex align-items-center">
-									<img class="rounded-circle shadow-1 me-3" th:src="@{/images/person-circle.svg}" alt="avatar" width="60" height="60">
-									<div>
-										<h6 class="fw-bold text-primary mb-1" th:text="${cmnt.createdBy}"></h6>
-										<p class="text-muted small mb-0" th:if="${cmnt.createdDate != null}" th:text="${#temporals.format(cmnt.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
-										<p class="text-muted small mb-0" th:if="${not #strings.isEmpty(cmnt.codeReference)}" th:text = "${'Referenced Line : ' + cmnt.codeReference}"></p>
-									</div>
-								</div>
-								<p class="mt-3 mb-4 pb-2" th:text="${cmnt.comment}">   </p>
-
-								<div class="d-flex justify-content-start">
-									<a href="#!" class="d-flex align-items-center me-3"> <i class="far fa-thumbs-up me-2"></i> <p class="mb-0">Like</p> </a> 
-									<a href="#!" class="d-flex align-items-center me-3" data-bs-toggle="modal" data-bs-target="#addCommentModal"   th:data-name="${cmnt.id}" th:onclick="setParentCommentId(this.getAttribute('data-name'))" > <i class="far fa-comment-dots me-2"></i> <p class="mb-0">Comment</p></a> 
-									<a class="btn btn-primary" data-bs-toggle="collapse" th:href="${'#collapseComments' + rowStat.count}" role="button" aria-expanded="false" aria-controls="collapseComments1" th:if="${not #lists.isEmpty(cmnt.subComments)}"> <i class="fas fa-angle-double-down"></i> Expand Comments</a>
-								</div>
-								<div class="collapse card" th:id="${'collapseComments' + rowStat.count}">
-									<div   th:each="subCmnt,rowStat2 : ${cmnt.subComments}">
-										<div class="card card-body">
-											<div class="d-flex align-items-center">
-												<img class="rounded-circle shadow-1 me-3" th:src="@{/images/person-circle.svg}" alt="avatar" width="60" height="60">
-												<div>
-													<h6 class="fw-bold text-primary mb-1" th:text="${subCmnt.createdBy}"></h6>
-													<p class="text-muted small mb-0" th:if="${subCmnt.createdDate != null}" th:text="${#temporals.format(subCmnt.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
-													<p class="text-muted small mb-0" th:if="${not #strings.isEmpty(subCmnt.codeReference)}" th:text = "${'Referenced Line : ' + subCmnt.codeReference}"></p>
-												</div>
-											</div>
-											<p class="mt-3 mb-4 pb-2" th:text="${subCmnt.comment}">  </p>
-											<div class="d-flex justify-content-start">
-												<a href="#!" class="d-flex align-items-center me-3"> <i class="far fa-thumbs-up me-2"></i> <p class="mb-0">Like</p> </a> 
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
 	</main>
+	
   	<script th:inline="javascript">
 	  function setParentCommentId(id) {
 	    var hiddenInput = document.getElementById('parentCommentId');
