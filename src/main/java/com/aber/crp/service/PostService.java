@@ -13,5 +13,6 @@ public interface PostService {
 	PostDto findPostById(Long id);
 	Set<CommentsDto> findAllCommentsByPostId(Long postId);
 	void saveComment(CommentsDto commentDto);
+	void deletePost(Long id);
 
 }

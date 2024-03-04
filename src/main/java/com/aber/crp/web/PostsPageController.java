@@ -88,4 +88,26 @@ public class PostsPageController {
 		return "redirect:/user/posts/view?id="+dto.getPostId();
 	}
 	
+	@GetMapping("/deletePost")
+	public String deletePost(@RequestParam("id") Long id) {
+		System.out.println("Post Id" + id);
+		postService.deletePost(id);
+		return "redirect:/user/posts";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
