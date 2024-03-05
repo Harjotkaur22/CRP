@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import com.aber.crp.dto.CommentsDto;
 import com.aber.crp.dto.PostDto;
 import com.aber.crp.dto.UserRegistrationDto;
 import com.aber.crp.model.Comments;
 import com.aber.crp.service.PostService;
+
+import io.micrometer.common.util.StringUtils;
 
 @Controller
 @RequestMapping("/user/posts")
@@ -57,11 +61,11 @@ public class PostsPageController {
 		
 		PostDto postDto = postService.findPostById(id);
 		String[] codeSampleByLines = postDto.getCodeSample().split(System.lineSeparator());
-		int count = 1;
+		int count = 0;
 		StringBuffer code = new StringBuffer();
 		for(String temp : codeSampleByLines) {
-			code.append(count + " : " + temp +System.lineSeparator());
 			count++;
+			code.append(count + " : " + temp +System.lineSeparator());
 		}
 		postDto.setCodeSampleWithIndex(code.toString());
 		CommentsDto commentDto = new CommentsDto();
@@ -76,6 +80,7 @@ public class PostsPageController {
         model.addAttribute("codeSampleByLines", codeSampleByLines);
         model.addAttribute("comment", commentDto);
         model.addAttribute("comments", commentsList);
+        model.addAttribute("lineCount", count);
 
 		return "user/viewPost";
 	}
@@ -96,8 +101,25 @@ public class PostsPageController {
 	}
 	
 	
-	
-	
+	@ResponseBody
+	@GetMapping("/getReferencedCodeBlock")
+	public String getReferencedCodeBlock(@RequestParam("id") Long id,@RequestParam("reference") String reference) {
+
+		PostDto postDto = postService.findPostById(id);
+		String[] lines = reference.split("->");
+		int start = Integer.parseInt(lines[0].trim());
+		int end = Integer.parseInt(lines[1].trim());
+		String[] codeSampleByLines = postDto.getCodeSample().split(System.lineSeparator());
+		int count = 1;
+		StringBuffer code = new StringBuffer();
+		for(String temp : codeSampleByLines) {
+			if(count >= start && count <= end)
+				code.append(count + " : " + temp +System.lineSeparator());
+			count++;
+		}
+		System.out.println(code.toString());
+		return HtmlUtils.htmlEscape(code.toString());
+	}
 	
 	
 	

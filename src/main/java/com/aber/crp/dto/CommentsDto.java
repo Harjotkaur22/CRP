@@ -12,6 +12,8 @@ public class CommentsDto extends BaseEntityDto{
 	private Long parentCommentId;
 	private Set<CommentsDto> subComments; 
 	private String codeReference;
+	private Long start;
+	private Long end;
 
 	
 	public Long getId() {
@@ -50,5 +52,19 @@ public class CommentsDto extends BaseEntityDto{
 	public void setCodeReference(String codeReference) {
 		this.codeReference = codeReference;
 	}
+	public Long getStart() {
+		return start;
+	}
+	public void setStart(Long start) {
+		this.start = start;
+	}
+	public Long getEnd() {
+		return end;
+	}
+	public void setEnd(Long end) {
+		this.end = end;
+	}
+	
+	
 	
 }
