@@ -15,58 +15,30 @@
 	  <div class="text-center">
 	    <h1>My Profile</h1>
 	    </div>      
-	    <ul>
+	    <form th:action = "@{/updateUser}" method = "post" th:object = "${user}">
 	     <div class="form-container">
-          <form>
 	       <lable for=firstName class="form-label">First name</lable>
-	        <input type="text" name="name" placeholder="enter firstname" class="form-control" id="firstName"  required>
+	        <input readonly type="text" th:field="*{firstName}" class="form-control" id="firstName"  required>
 	    </div>
 	      <div class="form-container">
 	       <lable for=lastname class="form-label">Last name</lable>
-	        <input type="text" name="name" placeholder="enter lastname" class="form-control" id="lastName"  required>
+	        <input readonly type="text" th:field="*{lastName}" class="form-control" id="lastName"  required>
 	    </div>
 	    
 	     <div class="form-container">
-	      <lable for=email class="form-label">User ID</lable>
-	       <input type="text" placeholder="enter user id" class="form-control" id="user"  required>
+	      <lable for=email class="form-label">User Name</lable>
+	       <input readonly type="text" th:field="*{userName}" class="form-control" id="user"  required>
          </div>
          
 	     <div class="form-container">
 	      <lable for=email class="form-label">Email ID</lable>
-	       <input type="email" placeholder="enter email id" class="form-control" id="email"  required>
+	       <input readonly type="email" th:field="*{email}" class="form-control" id="email"  required>
          </div>
+         
 	    <div class="dashboard-accordion-item-toggle">
 	   <p> <a href="" role="button" aria-disabled="true">Edit Profile</a>
 	   </p>
 	    </div>
-	    <div class="dashboard-accordion-item-content" style="max-height: 0px; transition-duration: 200ms; transition-timing-function: cubic-bezier(0.02, 0.01, 0.47, 1); transition-property: all; overflow: hidden; display: none;">
-	    <form>
-	    <div class="w-input">
-	    <label for="currentPassword">Current password</label>
-	    <div class="w-input-field form-input-classic">
-	    <input id="field-currentPassword" name="currentPassword" type="password" value="">
-	    </div>
-	    </div>
-	    <div class="w-input">
-	    <label for="newPassword1">New password</label>	    
-	    <div class="w-input-field form-input-classic">
-	    <input id="field-newPassword1" name="newPassword1" type="password" value="">
-	    </div>
-	    </div>
-	    <div class="w-input">
-	    <label for="newPassword2">Confirm password</label>
-	    <div class="w-input-field form-input-classic">
-	    <input id="field-newPassword2" name="newPassword2" type="password" value="">
-	    </div>
-	    </div>
-	    <input type="submit" style="display: none;">
-	    <input type="submit" value="Save">
-	    </form>
-	    </div>
-	    </div>
-	    </li>
-	    </ul>
-	    </div> 
   	</main>
 </body>
 </html>
