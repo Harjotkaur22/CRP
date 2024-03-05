@@ -117,7 +117,6 @@ public class PostsPageController {
 				code.append(count + " : " + temp +System.lineSeparator());
 			count++;
 		}
-		System.out.println(code.toString());
 		return HtmlUtils.htmlEscape(code.toString());
 	}
 	
