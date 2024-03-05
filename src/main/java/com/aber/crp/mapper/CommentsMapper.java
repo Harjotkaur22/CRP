@@ -28,7 +28,8 @@ public class CommentsMapper {
 	    	comment.setPostId(commentDto.getPostId());
 	    	comment.setComment(commentDto.getComment());
 	    	comment.setParentCommentId(commentDto.getParentCommentId());
-	    	comment.setCodeReference(commentDto.getCodeReference());
+	    	if(commentDto.getStart() != null && commentDto.getEnd() != null)
+	    		comment.setCodeReference(commentDto.getStart()+" -> "+commentDto.getEnd());
 	        return comment;
 	    }
 	    

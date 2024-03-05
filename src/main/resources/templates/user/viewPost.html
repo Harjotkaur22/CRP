@@ -8,6 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style type="text/css">
 	
@@ -80,7 +81,7 @@
 							<div>
 								<h6 class="fw-bold text-primary mb-1" th:text="${cmnt.createdBy}"></h6>
 								<p class="text-muted small mb-0" th:if="${cmnt.createdDate != null}" th:text="${#temporals.format(cmnt.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
-								<p class="text-muted small mb-0" th:if="${not #strings.isEmpty(cmnt.codeReference)}" th:text = "${'Referenced Line : ' + cmnt.codeReference}"></p>
+								<a href="#!" th:if="${not #strings.isEmpty(cmnt.codeReference)}" th:text = "'View Reference'" class="d-flex align-items-center me-3" data-bs-toggle="modal" data-bs-target="#viewReferenceModal"   th:data-reference="${cmnt.codeReference}" th:data-name="${cmnt.postId}" th:onclick="loadReferencedCodeBlock(this.getAttribute('data-name'),this.getAttribute('data-reference'))" > </a> 
 							</div>
 						</div>
 						<p class="mt-3 mb-3" th:text="${cmnt.comment}">   </p>
@@ -98,7 +99,7 @@
 										<div>
 											<h6 class="fw-bold text-primary mb-1" th:text="${subCmnt.createdBy}"></h6>
 											<p class="text-muted small mb-0" th:if="${subCmnt.createdDate != null}" th:text="${#temporals.format(subCmnt.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
-											<p class="text-muted small mb-0" th:if="${not #strings.isEmpty(subCmnt.codeReference)}" th:text = "${'Referenced Line : ' + subCmnt.codeReference}"></p>
+											<a href="#!" th:if="${not #strings.isEmpty(subCmnt.codeReference)}" th:text = "${'Referenced Line : ' + subCmnt.codeReference}" class="d-flex align-items-center me-3" data-bs-toggle="modal" data-bs-target="#viewReferenceModal"   th:data-reference="${subCmnt.codeReference}" th:data-name="${subCmnt.postId}" th:onclick="loadReferencedCodeBlock(this.getAttribute('data-name'),this.getAttribute('data-reference'))" > </a> 
 										</div>
 									</div>
 									<p class="mt-3 mb-3" th:text="${subCmnt.comment}">  </p>
@@ -115,7 +116,7 @@
 
 	<!-- Dialog Box to add Comment -->
 		<div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="addCommentModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
+		    <div class="modal-dialog  modal-xl">
 		        <div class="modal-content">
 		            <div class="modal-header">
 		                <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
@@ -126,18 +127,28 @@
 		            	<input type="hidden" class="form-control" id="parentCommentId"  th:field = "*{parentCommentId}" >
 		            
 			            <div class="modal-body">
-			              	<div class="form-group">
-								<label for="codeReference">Referenced Line</label>
-								<input type="text" class="form-control" id="codeReference" placeholder="Enter your line reference"  th:field = "*{codeReference}"  >
+
+							<div class="container">
+								<div class="row mt-3">
+									<div class="col-md-6">
+										<label for="start" class="form-label">Referenced From:</label> 
+										<input type="number" class="form-control" id="start" th:max="${lineCount}" th:min="1" th:field = "*{start}" placeholder="Line Number">
+									</div>
+									<div class="col-md-6">
+										<label for="end" class="form-label">Referenced Till:</label> 
+										<input type="number" class="form-control" id="end" th:max="${lineCount}" th:min="1" th:field = "*{end}" placeholder="Line Number">
+									</div>
+									<div class="col-md-12">
+										
+										<label for="description">Comment</label>
+										<textarea class="form-control" id="comment" rows="5" placeholder="Enter your comment"  th:field = "*{comment}"  required=""></textarea>
+										<div class="invalid-feedback">
+					                		Valid comment is required.
+					              		</div>
+
+									</div>
+								</div>
 							</div>
-							<div class="form-group">
-								<label for="description">Comment</label>
-								<textarea class="form-control" id="comment" rows="5" placeholder="Enter your comment"  th:field = "*{comment}"  required=""></textarea>
-								<div class="invalid-feedback">
-			                		Valid comment is required.
-			              		</div>
-							</div>
-						
 			            </div>
 			            <div class="modal-footer">
 			             	<button type="submit" class="btn btn-primary">Submit</button>
@@ -149,6 +160,26 @@
 		    </div>
 		</div>
 	   
+	   
+	   	<!-- Dialog Box to view Referenced Lines -->
+		<div class="modal fade " id="viewReferenceModal" tabindex="-1" aria-labelledby="viewReferenceModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-xl">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="viewReferenceModalLabel">View Referenced Line</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+			            <div class="modal-body" style="max-height: 80vh;overflow: auto;">
+			           		<pre class = "alert alert-secondary" id="referencecodeBlock"  ></pre>
+						
+			            </div>
+			            <div class="modal-footer">
+		                	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			            </div>
+			            
+		        </div>
+		    </div>
+		</div>
 	</main>
 	
   	<script th:inline="javascript">
@@ -156,6 +187,13 @@
 	    var hiddenInput = document.getElementById('parentCommentId');
 	    hiddenInput.value = id;
 	  }
+	  function loadReferencedCodeBlock(id,reference) {
+	        // Fetch HTML content using AJAX
+	        $.get("/user/posts/getReferencedCodeBlock?id="+id+"&reference="+reference, function(data) {
+	            // Inject the fetched HTML content into the dialog container
+	            $('#referencecodeBlock').html(data);
+	        });
+	    }
 	</script>
 </body>
 </html>
