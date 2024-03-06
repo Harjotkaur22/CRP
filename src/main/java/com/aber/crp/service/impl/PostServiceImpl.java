@@ -14,12 +14,15 @@ import com.aber.crp.dto.PostDto;
 import com.aber.crp.mapper.CommentsMapper;
 import com.aber.crp.mapper.PostMapper;
 import com.aber.crp.model.Comments;
+import com.aber.crp.model.Notification;
 import com.aber.crp.model.Post;
 import com.aber.crp.model.Tag;
 import com.aber.crp.repository.CommentsRepository;
+import com.aber.crp.repository.NotificationRepository;
 import com.aber.crp.repository.PostRepository;
 import com.aber.crp.repository.TagRepository;
 import com.aber.crp.service.PostService;
+import com.aber.crp.util.Utils;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -33,6 +36,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private TagRepository tagRepo;
+	
+	@Autowired
+	private NotificationRepository notificationRepo;
 	
 
 	@Override
@@ -71,6 +77,14 @@ public class PostServiceImpl implements PostService {
 	public void saveComment(CommentsDto commentsDto) {
 			Comments comment = CommentsMapper.mapToComments(commentsDto, new Comments());
 			commentsRepo.save(comment);
+			PostDto post = findPostById(commentsDto.getPostId());
+			if(post != null) {
+				sendNotification(post.getCreatedBy(), commentsDto.getPostId(), "CMNT");
+			}
+			if(commentsDto.getParentCommentId() != null ) {
+				Optional<Comments> commentsOptional = commentsRepo.findById(commentsDto.getParentCommentId());
+				commentsOptional.ifPresent(x -> sendNotification(x.getCreatedBy() ,commentsDto.getPostId(), "CCMNT"));
+			}
 		
 	}
 	
@@ -95,7 +109,8 @@ public class PostServiceImpl implements PostService {
 				case "CRV" -> post.setReviewed(false);
 				default -> throw new IllegalArgumentException("Unexpected value: " + status);
 			}
-			postRepo.saveAndFlush(post);
+			postRepo.save(post);
+			sendNotification(post.getCreatedBy() ,id, status);
 		}
 		
 	}
@@ -118,6 +133,23 @@ public class PostServiceImpl implements PostService {
 	public Set<Tag> findAllTags() {
 		List<Tag> tagsList = tagRepo.findAll();
 		return new HashSet<Tag>(tagsList);
+	}
+	
+	private void sendNotification(String receiverUserName,Long postId, String action) {
+		
+		String userName = Utils.getCurrentUserName();
+		StringBuffer msg = new StringBuffer();
+		switch (action) {
+			case "CMNT" -> msg.append(userName +" commented on your post");
+			case "CCMNT" -> msg.append(userName +" commented on your comment");
+			case "GP" -> msg.append(userName +" marked your post for goodpractice");
+			case "BP" -> msg.append(userName +" removed good practice tag from your post");
+			case "RV" -> msg.append(userName +" reviewed your post");
+			case "CRV" -> msg.append(userName +" caceled the review for your post");
+		}
+		
+		Notification notification = new Notification(receiverUserName, postId, msg.toString());
+		notificationRepo.save(notification);
 	}
 	
 

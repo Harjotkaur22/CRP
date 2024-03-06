@@ -15,6 +15,7 @@ public class PostMapper {
     	postDto.setReviewed(post.isReviewed());
     	postDto.setGoodPractice(post.isGoodPractice());
     	postDto.setTags(post.getTags());
+    	postDto.setCreatedBy(post.getCreatedBy());
         return postDto;
     }
 
