@@ -43,9 +43,25 @@
 			        <div class="row">
 						<div class="col-md-6">
 			          	<h5 class="card-title" th:text="${post.subject}"></h5>
+			          	
 			          	</div>
 			          	<div class="col-md-6 text-end">
-				           	<a class="btn btn-primary" th:href="${'/user/posts/deletePost?id='+post.id}">Delete</a>
+				          	<span class="badge bg-primary" th:if="${post.goodPractice}">Good Practice</span>
+				          	<span class="badge bg-success" th:if="${post.reviewed}">Reviewed</span>
+			          	
+			          		<div class="btn-group" role="group">
+							    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+							      Actions
+							    </button>
+							    <ul class="dropdown-menu">
+							      <li><a class="dropdown-item" th:href="${'/user/posts/deletePost?id='+post.id}">Delete</a></li>
+							      <li><a class="dropdown-item" th:href="${'/review/updateStatus?id='+post.id+'&status=RV'}" th:unless="${post.reviewed}">Mark as Reviewed</a></li>
+   							      <li><a class="dropdown-item" th:href="${'/review/updateStatus?id='+post.id+'&status=CRV'}" th:if="${post.reviewed}">Cancel Reviewed</a></li>
+   							      <li><a class="dropdown-item" th:href="${'/review/updateStatus?id='+post.id+'&status=GP'}" th:unless="${post.goodPractice}">Good practice</a></li>
+							      <li><a class="dropdown-item" th:href="${'/review/updateStatus?id='+post.id+'&status=BP'}" th:if="${post.goodPractice}">Cancel Good practice</a></li>
+							      <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewTagsModal" >Tags</a></li>
+							    </ul>
+							</div>
 				        </div>
 			          </div>
 			        </div>
@@ -177,6 +193,30 @@
 		                	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 			            </div>
 			            
+		        </div>
+		    </div>
+		</div>
+		
+		<!-- Dialog Box to view/add Tags -->
+		<div class="modal fade " id="viewTagsModal" tabindex="-1" aria-labelledby="viewTagsModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-xl">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="viewTagsModalLabel">Tags</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+		            <form  th:action = "@{/review/addTags?}" method = "post" th:object = "${post}" class="needs-validation" >
+			            <div class="modal-body" >
+			            	<input type="hidden" class="form-control" th:field = "*{id}" >
+							<select  class="form-select" multiple th:field="*{tags}" >
+								<option th:each="tg : ${allTags}" th:value="${tg.id}" th:text="${tg.name}"></option>
+							</select>					
+			            </div>
+			            <div class="modal-footer">
+			            	<button type="submit" class="btn btn-primary">Save</button>
+		                	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			            </div>
+			      	</form>
 		        </div>
 		    </div>
 		</div>

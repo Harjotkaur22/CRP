@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aber.crp.dto.PostDto;
-import com.aber.crp.dto.UserRegistrationDto;
+import com.aber.crp.dto.UserDto;
 import com.aber.crp.service.PostService;
 import com.aber.crp.service.UserService;
 
