@@ -2,13 +2,12 @@ package com.aber.crp.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.aber.crp.dto.UserRegistrationDto;
+import com.aber.crp.dto.UserDto;
 import com.aber.crp.service.UserService;
 
 @Controller
@@ -21,8 +20,8 @@ public class UserRegistrationController {
 	
 	
 	@ModelAttribute("user")
-	public UserRegistrationDto userRegistrationDto() {
-		return new UserRegistrationDto();
+	public UserDto userRegistrationDto() {
+		return new UserDto();
 	}
 	
 	
@@ -33,7 +32,7 @@ public class UserRegistrationController {
 	}
 	
 	@PostMapping
-	public String registerUser(@ModelAttribute("user") UserRegistrationDto dto) {
+	public String registerUser(@ModelAttribute("user") UserDto dto) {
 		
 		if(!dto.getPassword1().equals(dto.getPassword2())) {
 			return "redirect:/registerUser?error";

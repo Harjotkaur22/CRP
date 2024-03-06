@@ -1,7 +1,6 @@
 package com.aber.crp.web;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,11 +19,8 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.aber.crp.dto.CommentsDto;
 import com.aber.crp.dto.PostDto;
-import com.aber.crp.dto.UserRegistrationDto;
-import com.aber.crp.model.Comments;
+import com.aber.crp.model.Tag;
 import com.aber.crp.service.PostService;
-
-import io.micrometer.common.util.StringUtils;
 
 @Controller
 @RequestMapping("/user/posts")
@@ -60,6 +56,7 @@ public class PostsPageController {
 	public String viewPost(@RequestParam("id") Long id, Model model) {
 		
 		PostDto postDto = postService.findPostById(id);
+		Set<Tag> allTags = postService.findAllTags();
 		String[] codeSampleByLines = postDto.getCodeSample().split(System.lineSeparator());
 		int count = 0;
 		StringBuffer code = new StringBuffer();
@@ -81,6 +78,8 @@ public class PostsPageController {
         model.addAttribute("comment", commentDto);
         model.addAttribute("comments", commentsList);
         model.addAttribute("lineCount", count);
+        model.addAttribute("allTags", allTags);
+
 
 		return "user/viewPost";
 	}

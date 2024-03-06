@@ -1,11 +1,17 @@
 package com.aber.crp.model;
 
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +27,14 @@ public class Post extends  BaseEntity  {
 	@Column(columnDefinition = "TEXT")
 	private String codeSample;
 	private boolean reviewed;
+	private boolean goodPractice;
 	private boolean deleted;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "postTagsMapping", 
+			joinColumns = @JoinColumn(name = "postId", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "tagId", referencedColumnName = "id"))
+	private Set<Tag> tags;
 	
 	
 	public Long getId() {
@@ -61,12 +74,18 @@ public class Post extends  BaseEntity  {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	
-	
-	
-	
-	
-	
+	public boolean isGoodPractice() {
+		return goodPractice;
+	}
+	public void setGoodPractice(boolean goodPractice) {
+		this.goodPractice = goodPractice;
+	}
+	public Set<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
 	
 	
 	

@@ -1,7 +1,6 @@
 package com.aber.crp.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,10 +11,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.aber.crp.dto.UserRegistrationDto;
+import com.aber.crp.dto.UserDto;
 import com.aber.crp.model.Role;
 import com.aber.crp.model.User;
 import com.aber.crp.repository.UserRepository;
@@ -30,7 +28,7 @@ public class UserServiceImpl implements UserService {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
-	public User save(UserRegistrationDto dto) {
+	public User save(UserDto dto) {
 		
 		List<Role> roles = loadRoleFromDto(dto);
 		User user = new User(dto.getFirstName(), dto.getLastName(), dto.getUserName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword1()), roles);
@@ -40,7 +38,7 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
-	private List<Role> loadRoleFromDto(UserRegistrationDto dto) {
+	private List<Role> loadRoleFromDto(UserDto dto) {
 		// TODO Auto-generated method stub Arrays.asList(new Role("ROLE_USER"),new Role("ROLE_REVIEWER"),new Role("ROLE_ADMIN"))
 		List<Role> roles = new ArrayList<Role>();
 		roles.add(new Role("ROLE_USER"));

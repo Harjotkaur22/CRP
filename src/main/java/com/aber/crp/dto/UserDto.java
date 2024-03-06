@@ -1,6 +1,6 @@
 package com.aber.crp.dto;
 
-public class UserRegistrationDto {
+public class UserDto {
 	
 	private String firstName;
 	private String lastName;
@@ -15,7 +15,7 @@ public class UserRegistrationDto {
 	
 	
 	
-	public UserRegistrationDto(String firstName, String lastName, String email, String userName, String password1,
+	public UserDto(String firstName, String lastName, String email, String userName, String password1,
 			String password2) {
 		super();
 		this.firstName = firstName;
@@ -26,7 +26,7 @@ public class UserRegistrationDto {
 		this.password2 = password2;
 	}
 	
-	public UserRegistrationDto() {
+	public UserDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

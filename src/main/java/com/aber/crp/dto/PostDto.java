@@ -1,5 +1,9 @@
 package com.aber.crp.dto;
 
+import java.util.Set;
+
+import com.aber.crp.model.Tag;
+
 public class PostDto extends BaseEntityDto {
 	
 	private Long id;
@@ -7,6 +11,9 @@ public class PostDto extends BaseEntityDto {
 	private String description;
 	private String codeSample;
 	private String codeSampleWithIndex;
+	private boolean reviewed = false;
+	private boolean goodPractice = false;
+	private Set<Tag> tags;
 
 	
 	public String getSubject() {
@@ -39,6 +46,26 @@ public class PostDto extends BaseEntityDto {
 	public void setCodeSampleWithIndex(String codeSampleWithIndex) {
 		this.codeSampleWithIndex = codeSampleWithIndex;
 	}
+	public boolean isReviewed() {
+		return reviewed;
+	}
+	public void setReviewed(boolean reviewed) {
+		this.reviewed = reviewed;
+	}
+	public boolean isGoodPractice() {
+		return goodPractice;
+	}
+	public void setGoodPractice(boolean goodPractice) {
+		this.goodPractice = goodPractice;
+	}
+	public Set<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	
 	
 	
 }
