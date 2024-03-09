@@ -35,6 +35,7 @@ public class SecurityConfiguration {
 		http.authorizeHttpRequests(configurer -> configurer
 										.requestMatchers("/registerUser/**").permitAll()
 										.requestMatchers("/images/**").permitAll()
+										.requestMatchers("/h2-console/**").permitAll()
 										.requestMatchers("/user/**").hasRole("USER")
 										.requestMatchers("/review/**").hasRole("REVIEWER")
 										.requestMatchers("/admin/**").hasRole("ADMIN")
