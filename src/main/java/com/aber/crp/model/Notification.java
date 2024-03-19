@@ -16,7 +16,7 @@ public class Notification extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String username;
+	private String userName;
 	private Long postId;
 	private String msg;
 	
@@ -29,7 +29,7 @@ public class Notification extends BaseEntity{
 
 	public Notification(String username, Long postId, String msg) {
 		super();
-		this.username = username;
+		this.userName = username;
 		this.postId = postId;
 		this.msg = msg;
 	}
@@ -40,11 +40,11 @@ public class Notification extends BaseEntity{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String username) {
+		this.userName = username;
 	}
 	public Long getPostId() {
 		return postId;
