@@ -4,7 +4,7 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/crp
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: pass@123
+    password: Password
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:

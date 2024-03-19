@@ -9,4 +9,7 @@ public interface UserService extends UserDetailsService{
 	
 	User save(UserDto dto);
 
+	
+	UserDto findByUserName(String name);
+
 }
