@@ -3,6 +3,7 @@ package com.aber.crp.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.aber.crp.dto.UserDto;
+import com.aber.crp.mapper.UserMapper;
 import com.aber.crp.model.Role;
 import com.aber.crp.model.User;
 import com.aber.crp.repository.UserRepository;
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepo;
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private UserDto UserDto;
 
 	@Override
 	public User save(UserDto dto) {
@@ -66,4 +69,14 @@ public class UserServiceImpl implements UserService {
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
+
+
+	@Override
+	public UserDto findByUserName(String name) {
+		User user = userRepo.findByUserName(name);
+		return UserMapper.mapToUserDto(user, new UserDto());
+	}
+
+
+
 }
